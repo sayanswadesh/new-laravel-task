@@ -21,7 +21,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">{{$project_details['menu_name']}} Addon List</h3>
+                            <h3 class="card-title">{{$project_details['menu_name']}} Task List</h3>
                             <a href="{{route('allProject')}}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-circle-left"></i> Back</a>
                             <a href="{{route('addTask',['project_id'=>$project_id])}}" class="btn btn-sm btn-primary float-right mr-2"><i class="fas fa-plus-circle"></i> Add</a>
                         </div>

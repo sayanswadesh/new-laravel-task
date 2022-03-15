@@ -34,20 +34,20 @@
                         <!-- /.card-header -->
                         <!-- form start -->
 
-                        <form id="user_form" action="{{route('saveUser')}}" class="form-horizontal" method="post" autocomplete="off">
+                        <form id="add_form" action="{{route('saveUser')}}" class="form-horizontal" method="post" enctype="multipart/form-data" autocomplete="off">
                             {{csrf_field()}}
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="name">Name<span class="requiredAsterisk">*</span></label>
-                                            <input type="text" name="name" class="form-control" placeholder="Enter Name">
+                                            <label for="first_name">First Name<span class="requiredAsterisk">*</span></label>
+                                            <input type="text" name="first_name" class="form-control" placeholder="Enter First Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="mobile">Mobile<span class="requiredAsterisk">*</span></label>
-                                            <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile">
+                                            <label for="last_name">Last Name<span class="requiredAsterisk">*</span></label>
+                                            <input type="text" name="last_name" class="form-control" placeholder="Enter Last Name">
                                         </div>
                                     </div>
                                 </div>
@@ -60,8 +60,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="login_id">LogIn Id<span class="requiredAsterisk">*</span></label>
-                                            <input type="text" name="login_id" class="form-control" placeholder="Log In Id">
+                                            <label for="mobile">Mobile<span class="requiredAsterisk">*</span></label>
+                                            <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile">
                                         </div>
                                     </div>
                                 </div>
@@ -73,12 +73,23 @@
                                             <input type="password" name="password" class="form-control" id="Password" value="" autocomplete="new-password">
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="form-group">
-
                                             <label for="confirm_password">Confirm Password<span class="requiredAsterisk">*</span></label>
                                             <input type="password" name="confirm_password" class="form-control" value="" autocomplete="new-password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="user_image" class="control-label file-upload">Photo<span class="requiredAsterisk">*</span></label>
+                                            <input type="file" class="form-control-file" name="user_image" id="user_image" placeholder="Select File." />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <img id="user_image_preview_container" src="{{ url('image-preview.png') }}" alt="preview image" style="max-height: 100px; display: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +134,6 @@
 <script src="{{url('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script src="{{url('assets/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 <script type="text/javascript">
-
     function pass_gen() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -209,10 +219,13 @@
     });
     /* On Change Role */
     $(document).ready(function() {
-        jQuery("#user_form").validate({
+        $("#add_form").validate({
 
             rules: {
-                name: {
+                first_name: {
+                    required: true
+                },
+                last_name: {
                     required: true
                 },
                 mobile: {
@@ -225,20 +238,24 @@
                     required: true,
                     email: true
                 },
-                login_id: {
-                    required: true
-                },
                 password: {
                     required: true
                 },
                 confirm_password: {
                     required: true,
                     equalTo: '#Password'
+                },
+                user_image: {
+                    required: true,
+                    extension: 'jpg,png,jpeg',
                 }
 
             },
             messages: {
-                name: {
+                first_name: {
+                    required: "This field is required",
+                },
+                last_name: {
                     required: "This field is required",
                 },
                 mobile: {
@@ -251,15 +268,15 @@
                     required: "This field is required",
                     email: "Enter a valid email address."
                 },
-                login_id: {
-                    required: "This field is required",
-                },
                 password: {
                     required: "This field is required",
                 },
                 confirm_password: {
                     required: "This field is required",
                     equalTo: "Password does not match."
+                },
+                user_image: {
+                    required: "This field is required",
                 }
             },
             errorElement: 'span',
@@ -274,6 +291,24 @@
                 $(element).removeClass('is-invalid');
             }
         });
+    });
+
+    /* User Image Photo */
+    $('#user_image').change(function() {
+        var fileName = $('#user_image').val();
+        var str = fileName.replace(/^.*\./, '');
+        var ext = str.toLowerCase();
+        if (ext == 'jpg' || ext == 'jpeg' || ext == 'png') {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                $('#user_image_preview_container').attr('src', e.target.result);
+                $('#user_image_preview_container').show();
+            }
+            reader.readAsDataURL(this.files[0]);
+
+        } else {
+            toastr["error"]("Only accepted jpg,jpeg,png");
+        }
     });
 </script>
 @endsection

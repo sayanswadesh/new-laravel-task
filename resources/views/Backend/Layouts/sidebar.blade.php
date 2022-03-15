@@ -18,8 +18,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('allUsers')}}" class="nav-link {{(request()->is('admin/user')) ? 'active' : '' }}">
-                        <i class="fas fa-users nav-icon"></i><span>Users</span>
+                    <a href="{{route('allUsers')}}" class="nav-link {{(request()->is('admin/developer*')) ? 'active' : '' }}">
+                        <i class="fas fa-users nav-icon"></i><span>Developers</span>
                     </a>
                 </li>
                 <li class="nav-item">

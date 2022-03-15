@@ -79,16 +79,16 @@
                 name: 'user_image'
             },
             {
-                data: 'name',
-                name: 'name'
+                data: 'full_name',
+                name: 'full_name'
             },
             {
                 data: 'email',
                 name: 'email'
             },
             {
-                data: 'phone',
-                name: 'phone'
+                data: 'mobile',
+                name: 'mobile'
             },
             {
                 data: 'update_status',

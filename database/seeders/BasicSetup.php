@@ -34,7 +34,7 @@ class BasicSetup extends Seeder
         $User->password = Hash::make('123456');
         $User->email_verification = 1;
         $User->image = 'avatar.png';
-        $User->hash_number = md5('Anirban Das');
+        $User->hash_number = md5('Soumya Jana');
         $User->status = 'Active';
         $User->save();
     }

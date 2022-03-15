@@ -28,13 +28,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminMiddleware']], functio
 	Route::post('/saveAccountSettingProfile', ['as' => 'saveAccountSettingProfile', 'uses' => 'Backend\Profile\GeneralController@saveaccountsetting']);
 
 	/* users */
-	Route::get('/user', ['as' => 'allUsers', 'uses' => 'Backend\Users\UsersController@index']);
-	Route::get('/user/add', ['as' => 'addUser', 'uses' => 'Backend\Users\UsersController@add']);
-	Route::post('/user/save', ['as' => 'saveUser', 'uses' => 'Backend\Users\UsersController@save']);
-	Route::get('/user/edit/{id}', ['as' => 'editUser', 'uses' => 'Backend\Users\UsersController@edit']);
-	Route::post('/user/save/{id}', ['as' => 'updateUser', 'uses' => 'Backend\Users\UsersController@update']);
-	Route::get('/user/delete/{id}', ['as' => 'deleteUser', 'uses' => 'Backend\Users\UsersController@delete']);
-	Route::post('/user/user-status', ['as' => 'user_status', 'uses' => 'Backend\Users\UsersController@status']);
+	Route::get('/developer', ['as' => 'allUsers', 'uses' => 'Backend\Users\UsersController@index']);
+	Route::get('/developer/add', ['as' => 'addUser', 'uses' => 'Backend\Users\UsersController@add']);
+	Route::post('/developer/save', ['as' => 'saveUser', 'uses' => 'Backend\Users\UsersController@save']);
+	Route::get('/developer/delete/{id}', ['as' => 'deleteUser', 'uses' => 'Backend\Users\UsersController@delete']);
+	Route::post('/developer/developer-status', ['as' => 'user_status', 'uses' => 'Backend\Users\UsersController@status']);
 
 	Route::group(['prefix' => 'client'], function () {
 		Route::get('/all', ['as' => 'allClients', 'uses' => 'Backend\Client\ClientController@index']);

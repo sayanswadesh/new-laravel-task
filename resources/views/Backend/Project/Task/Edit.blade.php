@@ -28,8 +28,8 @@
                     <!-- general form elements -->
                     <div class="card ">
                         <div class="card-header">
-                            <h3 class="card-title">Edit Menu</h3>
-                            <a href="{{route('allMenuAddon',['project_id'=>$project_id])}}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-circle-left"></i> Back</a>
+                            <h3 class="card-title">Edit Task</h3>
+                            <a href="{{route('allTask',['project_id'=>$project_id])}}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-circle-left"></i> Back</a>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
@@ -42,7 +42,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="task_name">Task Name<span class="requiredAsterisk">*</span></label>
-                                            <input type="text" class="form-control" id="task_name" name="task_name" placeholder="Enter task name">
+                                            <input type="text" class="form-control" id="task_name" value="{{$records['task_name']}}" name="task_name" placeholder="Enter task name">
                                         </div>
                                     </div>
                                 </div>

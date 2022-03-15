@@ -37,7 +37,7 @@
                         <!-- /.card-header -->
                         <!-- form start -->
 
-                        <form id="add_form" action="{{route('updateMenuItem')}}" class="form-horizontal" autocomplete="off" method="post" enctype="multipart/form-data">
+                        <form id="add_form" action="{{route('updateProject')}}" class="form-horizontal" autocomplete="off" method="post" enctype="multipart/form-data">
                             {{csrf_field()}}
                             <div class="card-body">
                                 <div class="row">
@@ -57,8 +57,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="developer_id">Developer</label>
-                                            <select class="form-control select2" style="width: 100%;" id="developer_id" name="developer_id" data-placeholder="Select Client">
+                                            <label for="developer_id">Developer<span class="requiredAsterisk">*</span></label>
+                                            <select class="form-control select2" style="width: 100%;" id="developer_id" name="developer_id" >
+                                                <option value="">Select Developer</option>
                                                 @foreach($all_developers as $row_developer)
                                                 <option value="{{$row_developer['id']}}" @if($records['developer_id']==$row_developer['id']){{'selected'}} @endif>{{$row_developer['first_name']}}</option>
                                                 @endforeach
@@ -67,8 +68,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="client_id">Client</label>
-                                            <select class="form-control select2" style="width: 100%;" id="client_id" name="client_id" data-placeholder="Select Client">
+                                            <label for="client_id">Client<span class="requiredAsterisk">*</span></label>
+                                            <select class="form-control select2" style="width: 100%;" id="client_id" name="client_id" >
+                                                <option value="">Select Client</option>
                                                 @foreach($all_clients as $row_client)
                                                 <option value="{{$row_client['id']}}" @if($records['client_id']==$row_client['id']){{'selected'}} @endif>{{$row_client['client_name']}}</option>
                                                 @endforeach

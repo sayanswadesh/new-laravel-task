@@ -100,14 +100,14 @@ class TaskController extends Controller
     {
         $input = $request->all();
         if ($input['status'] == 'Complete') {
-            Project::where('id', $input['id'])->update([
+            Task::where('id', $input['id'])->update([
                 'status' => 'Pending',
             ]);
             $st = 'Pending';
             $html = '&nbsp;<a href="javascript:void(0);" class="btn btn-sm btn-warning" onclick="task_status(' . $input['id'] . ',' . $st . ')">Pending</a>';
             return json_encode(array('id' => $input['id'], 'html' => $html));
         } else {
-            Project::where('id', $input['id'])->update([
+            Task::where('id', $input['id'])->update([
                 'status' => 'Complete',
             ]);
             $st = 'Complete';

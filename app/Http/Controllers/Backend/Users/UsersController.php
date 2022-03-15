@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use File;
+use Illuminate\Support\Facades\Hash;
 use Exception;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
@@ -15,13 +15,13 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $dataQuery = User::where('deleted_at', '=', NULL)->orderBy('id', 'DESC');
+            $dataQuery = User::where('deleted_at', '=', NULL)->where('user_type', 'Developer')->orderBy('id', 'DESC');
             $data = $dataQuery->select('*')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('user_image', function ($data) {
                     $user_image = '';
-                    $user_image = '<img src="' . url('/') . $data->image . '" width="100px" height="100px">';
+                    $user_image = '<img src="' . url('/') . $data['image'] . '" width="100px" height="100px">';
 
                     return $user_image;
                 })
@@ -42,12 +42,9 @@ class UsersController extends Controller
 
                 ->addColumn('action', function ($data) {
                     $edit = '';
-                    // $url_update = route('editUser', ['id' => $data->id]);
-                    // $url_delete = route('deleteUser', ['id' => $data->id]);
-                    // $edit = ' <a href="' . $url_update . '" class="badge badge-pill badge-primary"><i class="fas fa-edit"></i> Edit </a>&nbsp;';
-                    // if ($data->id != '1') {
-                    //     $edit .= '&nbsp<a href="' . $url_delete . '" class="badge badge-pill badge-danger" data-confirm="Are you sure to delete user ? <span class=&#034;label label-primary&#034;></span>"><i class="fas fa-trash"></i> Delete </a>';
-                    // }
+                    $url_delete = route('deleteUser', ['id' => $data->id]);
+                    $edit = '&nbsp<a href="' . $url_delete . '" class="badge badge-pill badge-danger" data-confirm="Are you sure to delete user ? <span class=&#034;label label-primary&#034;></span>"><i class="fas fa-trash"></i> Delete </a>';
+
                     return $edit;
                 })
 
@@ -64,45 +61,44 @@ class UsersController extends Controller
     public function save(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'login_id' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'mobile' => 'required|numeric',
             'email' => 'required|unique:users,email',
             'password' => 'required',
-            'confirm_password' => 'required|same:password'
+            'confirm_password' => 'required|same:password',
+            'user_image' => 'required|mimes:jpeg,png,jpg',
         ]);
         $email = $request->get('email');
-        $login_id = $request->get('login_id');
-        $has_logInId = User::where('deleted_at', NULL)->where('login_id', $login_id)->first();
         $has_email = User::where('deleted_at', NULL)->where('email', $email)->first();
-        if ($has_logInId) {
-            return redirect()->back()->with('warning', 'User login id should be unique!');
-        }
         if ($has_email) {
             return redirect()->back()->with('warning', 'User email should be unique!');
         }
-
-        $name = $request->get('name');
         $confirm_password = $request->get('confirm_password');
         $mobile = $request->get('mobile');
 
         /* Default Image Start*/
-        $defaultImagePath = public_path('/uploads/profilePhoto/avatar.png');
-        $extension = \File::extension($defaultImagePath);
-        $imagename = time() . '.' . $extension;
-        $newFullPath = public_path('/uploads/profilePhoto/' . $imagename);
-        $profile_photo = '/uploads/profilePhoto/' . $imagename;
-        File::copy($defaultImagePath, $newFullPath);
+        if ($request->hasFile('user_image')) {
+            $user_img = $request->file('user_image');
+            $extension = $user_img->getClientOriginalExtension();
+            $imagename = time() . '.' . $extension;
+            $destinationPath = public_path('/uploads/profilePhoto');
+            $user_img->move($destinationPath, $imagename);
+            $image_name = '/uploads/profilePhoto/' . $imagename;
+        } else {
+            $image_name = 'avatar.png';
+        }
         /* Default Image End*/
 
         $User = new User();
-        $User->name = $name;
-        $User->login_id = $login_id;
+        $User->user_type = 'Developer';
+        $User->first_name = $request['first_name'];
+        $User->last_name = $request['last_name'];
         $User->email = $email;
-        $User->password = bcrypt($confirm_password);
-        $User->phone = $mobile;
-        $User->image = $profile_photo;
-        $User->hash_number =  md5($name);
+        $User->password = Hash::make($confirm_password);;
+        $User->mobile = $mobile;
+        $User->image = $image_name;
+        $User->hash_number =  md5($request['first_name']);
         $User->email_verification = 1;
         $User->status = 'Active';
         $User->save();
@@ -111,38 +107,6 @@ class UsersController extends Controller
         return redirect()->back();
     }
 
-    public function edit($id)
-    {
-        try {
-            $records = User::findOrFail($id);
-            return view('Backend.Users.Edit', ['ID' => $id, 'records' => $records]);
-        } catch (Exception $e) {
-            return view('Backend.InvalidModalOperation');
-        }
-    }
-
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'mobile' => 'required|numeric',
-            'email' => 'required|unique:users,email,' . $id . ',id'
-        ]);
-
-        $name = $request->get('name');
-        $mobile = $request->get('mobile');
-
-
-        $User =  User::findOrFail($id);
-
-
-        $User->name = $name;
-        $User->phone = $mobile;
-        $User->save();
-
-        Session::flash('success', "User has been updated");
-        return redirect()->back();
-    }
 
     public function delete($id = null)
     {

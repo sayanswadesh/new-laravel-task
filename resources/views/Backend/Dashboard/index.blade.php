@@ -19,49 +19,51 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <select name="filter_year" id="filter_year" class="select_year  form-control">
-                        @php
-                        $y = (int)date('Y');
-                        $listY = date("Y", strtotime("-5 year"));
-                        @endphp
-                        <option value="{{$y}}" selected="true">{{$y}}</option>
-                        <?php
-                        $y--;
-                        for ($y; $y > $listY; $y--) {
-                        ?>
-                            <option value="{{$y}}">{{$y}}</option>
-                        <?php } ?>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <select name="filter_month" id="filter_month" class="select_month form-control">
-                        <?php
-                        for ($m = 0; $m <= 12; ++$m) {
-                            $time = strtotime(sprintf('+%d months', $m));
-                            $Monthdecimalvalue = date('m', $time);
-                            $MonthName = date('F', $time);
-                            printf('<option value="%s">%s</option>', $Monthdecimalvalue, $MonthName);
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
-        </div>
         <div class="container-fluid">
-        </div><!-- /.container-fluid -->
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-4">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{$total_developers??0}}</h3>
+                            <p>Num of developers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-4">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{$total_projects??0}}</h3>
+                            <p>num of projects</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{$total_tasks??0}}</h3>
+                            <p>num of task</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
     </div>
     <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content" id="dashboard_contant">
-    </section>
-    <!-- /.content -->
 </div>
 @endsection
 @section('script')
@@ -91,23 +93,4 @@
 <script src="{{url('assets/dist/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{url('assets/dist/js/pages/dashboard.js')}}"></script>
-<script>
-    /* On Change Financial Year */
-    $('select[name="filter_year"],select[name="filter_month"]').on('change', function() {
-        var filter_year = $('select[name="filter_year"]').val();
-        var filter_month = $('select[name="filter_month"]').val();
-        $.ajax({
-            url: "{{route('getDashboard')}}",
-            type: "get",
-            data: {
-                filter_year: filter_year,
-                filter_month: filter_month
-            },
-            success: function(res) {
-                $('#dashboard_contant').html(res);
-            }
-        });
-    });
-    $('select[name="filter_month"]').trigger('change');
-</script>
 @endsection
