@@ -1,0 +1,18 @@
+.requiredAsterisk {
+    font-weight: bold;
+    font-size: 14px;
+    color: #f06c71;
+}
+
+th.dt-center,
+td.dt-center {
+    text-align: center;
+}
+
+.d_none {
+    display: none;
+}
+
+.small-box>a>.inner {
+    padding: 10px !important;
+}
