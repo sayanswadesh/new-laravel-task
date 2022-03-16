@@ -15,10 +15,17 @@ class AdminMiddleware
      * @return mixed
      */
 
-   public function handle($request, Closure $next, $guard = '')
+   public function handle($request, Closure $next)
     {
-        if (!Auth::check()) {
-            return redirect(route('admin_login'));
+        if (Auth::check() == true){
+            $user_type = Auth::user()['user_type'];
+            if($user_type=='Admin'){
+                return $next($request);
+            }else{
+                 return redirect(route('admin_login'));
+            }
+        }else{
+             return redirect(route('admin_login'));
         }
         return $next($request);
     }

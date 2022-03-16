@@ -22,7 +22,7 @@ class TaskController extends Controller
                 ->addIndexColumn()
                 ->addColumn('update_status', function ($data) {
                     $upt_st = '<span id="status' . $data->id . '">&nbsp;';
-                    if ($data->status == 'Active') {
+                    if ($data->status == 'Complete') {
                         $upt_st .= '<a href="javascript:task_status(' . $data->id . ',' . $data->status . ');" class="btn btn-sm btn-success">Complete </a>';
                     } else {
                         $upt_st .= '<a href="javascript:task_status(' . $data->id . ',' . $data->status . ');" class="btn btn-sm btn-warning" >Pending </a>';

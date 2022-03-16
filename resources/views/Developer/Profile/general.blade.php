@@ -1,14 +1,14 @@
-@extends('Backend.Profile.header')
+@extends('Developer.Profile.header')
 
 @section('profileContent')
 <div class="col-md-9">
     <div class="card">
         <div class="card-header p-2">
-            @include('Backend.Profile.tab')
+            @include('Developer.Profile.tab')
         </div><!-- /.card-header -->
         <div class="card-body">
             <div class="tab-content">
-                <form id="profile_form" class="form-horizontal dashed-row white-field" action="{{route('saveGeneralProfile')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                <form id="profile_form" class="form-horizontal dashed-row white-field" action="{{route('saveDevGeneralProfile')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                     {{csrf_field()}}
                     <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">First Name<span class="requiredAsterisk">*</span></label>
@@ -37,7 +37,6 @@
                             <input type="text" name="mobile" class="form-control" id="inputMobile" placeholder="Enter mobile" value="{{Auth::user()->mobile}}">
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label for="title" class="col-sm-2 control-label">Image<span class="requiredAsterisk">*</span></label>
                         <div class="col-sm-10">

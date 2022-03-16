@@ -22,7 +22,7 @@ $general_setting = App\Helper\SiteSettingHelper::general_setting();
     <link rel="stylesheet" href="{{url('assets/css/style.css')}}">
     <script type="text/javascript">
         var settings = {
-            logOutURL: "{{route('logout')}}",
+            logOutURL: "{{route('dev_logout')}}",
             LoaderGif: "{{url('assets/img/loader.gif')}}"
         }
     </script>
@@ -68,10 +68,10 @@ $general_setting = App\Helper\SiteSettingHelper::general_setting();
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="float-left">
-                                <a href="{{route('generalProfile')}}" class="btn btn-default btn-flat">Profile</a>
+                                <a href="{{route('generalDevProfile')}}" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="float-right">
-                                <a class="btn btn-default btn-flat" href="{{route('logout')}}">
+                                <a class="btn btn-default btn-flat" href="{{route('dev_logout')}}">
                                     Sign out
                                 </a>
                             </div>
@@ -84,7 +84,7 @@ $general_setting = App\Helper\SiteSettingHelper::general_setting();
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        @include('Backend.Layouts.sidebar')
+        @include('Developer.Layouts.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
         @yield('content')
@@ -131,7 +131,7 @@ $general_setting = App\Helper\SiteSettingHelper::general_setting();
     <script>
         $(document).on('select2:open', (e) => {
             const selectId = e.target.id
-            $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (
+            $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function(
                 key,
                 value,
             ) {

@@ -1,62 +1,27 @@
-@extends('Backend.Layouts.app')
-@section('stylesheet')W
+@extends('Developer.Layouts.app')
+@section('stylesheet')
 <link rel="stylesheet" href="{{url('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{url('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{url('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endsection
 @section('content')
-<div id="hello"></div>
+<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <!-- Main content -->
+    <section class="content-header">
         <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-4">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>{{$total_developers??0}}</h3>
-                            <p>Num of developers</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-4">
-                    <!-- small box -->
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>{{$total_projects??0}}</h3>
-                            <p>num of projects</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <!-- small box -->
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                            <h3>{{$total_tasks??0}}</h3>
-                            <p>num of task</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
+            <div class="row mb-2">
 
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Pending Task List</h3>
+                            <h3 class="card-title">Task List</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -79,9 +44,11 @@
                 </div>
                 <!-- /.col -->
             </div>
+            <!-- /.row -->
         </div>
-    </div>
-    <!-- /.content-header -->
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
 </div>
 @endsection
 @section('script')
@@ -89,6 +56,8 @@
 <script src="{{url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{url('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{url('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<!-- SweetAlert2 -->
+<script src="{{url('assets/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         $.ajaxSetup({
@@ -107,7 +76,7 @@
             }],
             order: [],
             ajax: {
-                url: "{{route('dashboard')}}",
+                url: "{{route('allDevTaskTable')}}",
                 type: 'GET',
             },
             columns: [{
@@ -128,10 +97,10 @@
     var Pending = 'Pending';
     var Complete = 'Complete';
 
-    function task_status(id, status) {
+    function task_dev_status(id, status) {
         $.ajax({
             type: "post",
-            url: "{{route('task_status')}}",
+            url: "{{route('task_dev_status')}}",
             data: {
                 _token: '<?php echo csrf_token(); ?>',
                 id: id,

@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Profile;
+namespace App\Http\Controllers\Developer\Profile;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\User;
@@ -14,8 +15,7 @@ class GeneralController extends Controller
 {
     public function index()
     {
-        $userId = Auth::user()->id;
-        return view('Backend.Profile.general');
+        return view('Developer.Profile.general');
     }
 
     public function changeProfileImage(Request $request)
@@ -78,7 +78,7 @@ class GeneralController extends Controller
     }
     public function accountsetting()
     {
-        return view('Backend.Profile.account');
+        return view('Developer.Profile.account');
     }
 
     public function saveaccountsetting(Request $request)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Developer\Login;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,18 +13,18 @@ class LoginController extends Controller
     public function __construct()
     {
         if (auth()->user()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('dev_dashboard');
         }
 
-        return redirect()->route('admin_login');
+        return redirect()->route('developer_login');
     }
 
     public function index()
     {
         if (auth()->user()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('dev_dashboard');
         }
-        return view('auth.login');
+        return view('Developer.login.login');
     }
     public function Check_login(Request $request)
     {
@@ -41,8 +41,8 @@ class LoginController extends Controller
         $remember_me = true;
         $email = $input['email'];
         $pass = $input['password'];
-        if (Auth::attempt(array('email' => $email, 'password' => $pass, 'user_type' => 'Admin'), $remember_me)) {
-            return redirect()->route('dashboard')->with('success', 'Logged in successfully');
+        if (Auth::attempt(array('email' => $email, 'password' => $pass, 'user_type' => 'Developer'), $remember_me)) {
+            return redirect()->route('dev_dashboard')->with('success', 'Logged in successfully');
         } else {
             return redirect()->back()->with('error', 'Login Failed !!!');
         }
@@ -51,9 +51,9 @@ class LoginController extends Controller
     {
         if (auth()->user()) {
             Auth::logout();
-            return redirect()->route('admin_login')->with('success', 'Logged out successfully');
+            return redirect()->route('developer_login')->with('success', 'Logged out successfully');
         } else {
-            return redirect()->route('admin_login');
+            return redirect()->route('developer_login');
         }
     }
 }

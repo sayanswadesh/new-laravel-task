@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 
+
 Route::get('/admin', ['as' => 'admin_login', 'uses' => 'Auth\LoginController@index']);
 Route::post('admin/login', ['as' => 'adminlogin', 'uses' => 'Auth\LoginController@Check_login']);
 
@@ -11,10 +12,10 @@ Route::post('/save-forgot-password', ['as' => 'saveForgotPassword', 'uses' => 'A
 
 Route::get('/resetPassword/{token}', ['as' => 'resetPassword', 'uses' => 'Auth\ResetPasswordController@resetPassword']);
 Route::post('/saveResetPassword/{token}', ['as' => 'saveResetPassword', 'uses' => 'Auth\ResetPasswordController@saveResetPassword']);
+
 Route::group(['prefix' => 'admin', 'middleware' => ['AdminMiddleware']], function () {
 	Route::get('admin-logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 	Route::get('/dashboard', ['as' => 'dashboard', 'uses' => 'Backend\Dashboard\DashboardController@index']);
-	Route::get('/dashboard/get-dashboard', ['as' => 'getDashboard', 'uses' => 'Backend\Dashboard\DashboardController@getDashboard']);
 
 	/*setting */
 	Route::get('/general-setting', ['as' => 'generalSetting',  'uses' => 'Backend\Settings\GeneralSettingsController@index']);

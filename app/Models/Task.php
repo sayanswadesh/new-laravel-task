@@ -13,4 +13,9 @@ class Task extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+
+    public function project_details()
+    {
+        return $this->hasOne('App\Models\Project', 'id', 'project_id')->where('deleted_at', NULL);
+    }
 }

@@ -24,12 +24,39 @@ class BasicSetup extends Seeder
         $generalSetting->site_icon         = 'logo-icon.png';
         $generalSetting->save();
 
-        /* Default User */
+        /* Default Admin */
         $User = new User();
         $User->user_type = 'Admin';
         $User->first_name     = 'Soumya';
         $User->last_name = 'Jana';
         $User->email = 'admin@gmail.com';
+        $User->mobile = '1234567890';
+        $User->password = Hash::make('123456');
+        $User->email_verification = 1;
+        $User->image = 'avatar.png';
+        $User->hash_number = md5('Soumya Jana');
+        $User->status = 'Active';
+        $User->save();
+
+        /* Default Developer */
+        $User = new User();
+        $User->user_type = 'Developer';
+        $User->first_name     = 'Rajeeb';
+        $User->last_name = 'Das';
+        $User->email = 'rajeeb@gmail.com';
+        $User->mobile = '1234567890';
+        $User->password = Hash::make('123456');
+        $User->email_verification = 1;
+        $User->image = 'avatar.png';
+        $User->hash_number = md5('Soumya Jana');
+        $User->status = 'Active';
+        $User->save();
+
+        $User = new User();
+        $User->user_type = 'Developer';
+        $User->first_name     = 'Sudip';
+        $User->last_name = 'Maiti';
+        $User->email = 'sudip@gmail.com';
         $User->mobile = '1234567890';
         $User->password = Hash::make('123456');
         $User->email_verification = 1;
